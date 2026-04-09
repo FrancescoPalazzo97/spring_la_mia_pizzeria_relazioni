@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/discounts")
@@ -49,7 +50,7 @@ public class DiscountController {
     }
 
     @PostMapping("/{id}/edit")
-    public String postMethodName(@Valid @ModelAttribute("discount") Discount discountUpdate,
+    public String update(@Valid @ModelAttribute("discount") Discount discountUpdate,
             BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
@@ -59,6 +60,16 @@ public class DiscountController {
         repo.save(discountUpdate);
 
         return "redirect:/pizzas/" + discountUpdate.getPizza().getId();
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Integer id) {
+
+        Discount discount = repo.findById(id).get();
+
+        repo.delete(discount);
+
+        return "redirect:/pizzas/" + discount.getPizza().getId();
     }
 
 }
