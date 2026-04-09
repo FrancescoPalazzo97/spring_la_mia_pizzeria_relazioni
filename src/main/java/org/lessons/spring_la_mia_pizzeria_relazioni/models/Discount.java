@@ -73,4 +73,12 @@ public class Discount {
         this.title = title;
     }
 
+    public Pizza getPizza() {
+        return this.pizza;
+    }
+
+    public void setPizza(Pizza pizza) {
+        this.pizza = pizza;
+    }
+
 }

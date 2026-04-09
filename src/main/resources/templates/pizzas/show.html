@@ -25,7 +25,10 @@
             </section>
 
             <section class="row">
-                <div class="col-12">
+                <div class="col-12 my-2">
+                    <a th:href="@{/pizzas/{id}/discount(id=*{id})}" class="btn btn-primary">Create new discount</a>
+                </div>
+                <div class="col-12 my-2">
                     <table class="table" th:if="${discounts.size() > 0}">
                         <thead>
                             <tr>
@@ -33,8 +36,6 @@
                                 <th>Title</th>
                                 <th>Start period</th>
                                 <th>End period</th>
-                                <!-- <th></th>
-                                <th></th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -43,35 +44,6 @@
                                 <td> <a th:href="@{|/discounts/*{id}|}">[[*{title}]]</a></td>
                                 <td>[[*{startDate}]]</td>
                                 <td>[[*{endDate}]]</td>
-                                <!-- <td>
-                                    <a th:href="@{pizzas/edit/{id}(id=*{id})}" class="btn btn-success btn-sm">Edit</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" th:data-bs-target="'#delete-modal-' + *{id}">Delete</button>
-
-                                    <div class="modal fade" th:id="'delete-modal-'+ *{id}" tabindex="-1" aria-labelledby="delete-modal" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deleting "[[*{id}]]"</h1>
-                                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Are you sure you want to delete the <strong>"[[*{name}]]"</strong> pizza?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-
-                                                    <form class="d-inline-block" th:action="@{/pizzas/delete/{id}(id=*{id})}" method="post">
-                                                        <button class="btn btn-danger" type="submit">
-                                                            Delete
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td> -->
                             </tr>
                         </tbody>
                     </table>
