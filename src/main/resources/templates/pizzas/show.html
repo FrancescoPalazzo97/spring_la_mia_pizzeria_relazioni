@@ -36,6 +36,7 @@
                                 <th>Title</th>
                                 <th>Start period</th>
                                 <th>End period</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,6 +45,10 @@
                                 <td> <a th:href="@{|/discounts/*{id}|}">[[*{title}]]</a></td>
                                 <td>[[*{startDate}]]</td>
                                 <td>[[*{endDate}]]</td>
+                                <td class="d-flex justify-content-end gap-3">
+                                    <a th:href="@{/discounts/{id}/edit(id=*{id})}" class="btn btn-warning">Edit</a>
+                                    <a th:href="@{/discounts/{id}/delete(id=*{id})}" class="btn btn-danger">Delete</a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

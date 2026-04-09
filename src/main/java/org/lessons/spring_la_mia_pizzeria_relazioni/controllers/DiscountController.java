@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/discounts")
@@ -32,12 +34,33 @@ public class DiscountController {
             Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "discounts/crete";
+            return "discounts/create-edit";
         }
 
         repo.save(newDiscount);
 
         return "redirect:/pizzas/" + newDiscount.getPizza().getId();
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable Integer id, Model model) {
+        model.addAttribute("discount", repo.findById(id).get());
+        model.addAttribute("edit", true);
+
+        return new String("/discounts/create-edit");
+    }
+
+    @PostMapping("/{id}/edit")
+    public String postMethodName(@Valid @ModelAttribute("discount") Discount discountUpdate,
+            BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "discounts/create-edit";
+        }
+
+        repo.save(discountUpdate);
+
+        return "redirect:/pizzas/" + discountUpdate.getPizza().getId();
     }
 
 }

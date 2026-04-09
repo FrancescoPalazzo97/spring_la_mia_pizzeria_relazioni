@@ -20,7 +20,7 @@
 
                     <div class="row justify-content-center">
                         
-                        <form id="book-form" th:action="${edit} ? @{|/discounts/edit/${borrowing.id}|} : @{/discounts/create}" method="post" th:object="${discount}">
+                        <form id="book-form" th:action="${edit} ? @{|/discounts/${discount.id}/edit|} : @{/discounts/create}" method="post" th:object="${discount}">
 
                             <input type="hidden" th:field="*{pizza}" id="linked-pizza">
 
