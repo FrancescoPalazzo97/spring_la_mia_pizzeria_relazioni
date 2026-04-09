@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/resources :: headTags}"></div>
+    <title>Updating [[${pizza.name}]]</title>
+</head>
+<body>
+    <nav th:replace="~{fragments/nav :: navbar('pizzas')}"></nav>
+
+    <main>
+
+        <div class="container" th:object="${pizza}">
+            
+            <section class="row">
+                <div class="col-12">
+
+                    <h1 class="py-4 mb-2 text-center">
+                        Updating [[${pizza.name}]]
+                    </h1>
+
+                    <div class="row justify-content-center">
+                        
+                        <form id="pizza-form" th:action="@{/pizzas/edit/{id}(id=${pizza.id})}" method="post" th:object="${pizza}">
+                            <!-- <div class="mb-3" th:if="${#fields.hasErrors()}">
+                                <ul class="alert alert-danger ps-5">
+                                    <li th:each="error : ${#fields.allErrors()}" th:text="${error}"></li>
+                                </ul>
+                            </div> -->
+
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Name: </label>
+                                <input type="text" id="name" class="form-control" th:field="*{name}" th:errorClass="is-invalid">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('name')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="photoUrl">Photo URL: </label>
+                                <input type="url" id="photoUrl" class="form-control" th:field="*{photoUrl}" th:errorClass="is-invalid">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('photoUrl')}">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('isbn')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="bio">Bio: </label>
+                                <textarea name="bio" id="bio" class="form-control" th:field="*{bio}" th:errorClass="is-invalid"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('bio')}">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('bio')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="price">Price: </label>
+                                <input type="number" id="price" class="form-control" min="0" th:field="*{price}" th:errorClass="is-invalid">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('price')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary">Update pizza</button>
+                                <button type="reset" class="btn btn-warning">Reset all fields</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </section>
+        
+        </div>
+    </main>
+
+    <script th:replace="~{fragments/resources :: scripts}"></script>
+</body>
+</html>

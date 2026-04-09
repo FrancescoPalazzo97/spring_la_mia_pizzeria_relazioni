@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/resources :: headTags}"></div>
+    <title>Books</title>
+</head>
+<body>
+    <nav></nav>
+
+    <main>
+        <nav th:replace="~{fragments/nav :: navbar('pizzas')}"></nav>
+
+        <div class="container">
+            <h1>Pizze</h1>
+            <hr>
+
+            <div class="mb-3 d-flex">
+                <a th:href="@{/pizzas/create}" class="me-auto btn btn-primary btn-sm">Create a new pizza</a>
+            </div>
+
+            <section class="row">
+                <div class="col-12">
+                    <table class="table" th:if="${pizzas.size() > 0}">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>name</th>
+                                <th>bio</th>
+                                <th>price</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="pizza : ${pizzas}" th:object="${pizza}">
+                                <td>[[*{id}]]</td>
+                                <td> <a th:href="@{|/pizzas/*{id}|}">[[*{name}]]</a></td>
+                                <td>[[*{bio}]]</td>
+                                <td>[[*{price / 100}]] &euro;</td>
+                                <td>
+                                    <a th:href="@{pizzas/edit/{id}(id=*{id})}" class="btn btn-success btn-sm">Edit</a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" th:data-bs-target="'#delete-modal-' + *{id}">Delete</button>
+
+                                    <div class="modal fade" th:id="'delete-modal-'+ *{id}" tabindex="-1" aria-labelledby="delete-modal" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deleting "[[*{id}]]"</h1>
+                                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete the <strong>"[[*{name}]]"</strong> pizza?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+
+                                                    <form class="d-inline-block" th:action="@{/pizzas/delete/{id}(id=*{id})}" method="post">
+                                                        <button class="btn btn-danger" type="submit">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p th:text="No books available at this moment..." th:unless="${pizzas.size() > 0}"></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script th:replace="~{fragments/resources :: scripts}"></script>
+</body>
+</html>

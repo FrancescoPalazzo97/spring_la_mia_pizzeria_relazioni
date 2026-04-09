@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/resources :: headTags}"></div>
+    <title>Home</title>
+</head>
+<body>
+    <nav></nav>
+
+    <main>
+        <nav th:replace="~{fragments/nav :: navbar('books')}"></nav>
+
+        <div class="container">
+            <h1>Home</h1>
+
+            <hr>
+
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A nisi delectus consequuntur, enim sit iure dolorum soluta consectetur ratione vel nam eaque, laboriosam atque voluptate corrupti officiis est, aspernatur iusto!</p>
+        </div>
+    </main>
+
+    <script th:replace="~{fragments/resources :: scripts}"></script>
+</body>
+</html>
