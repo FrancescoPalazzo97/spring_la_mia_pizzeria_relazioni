@@ -33,3 +33,20 @@ Buon lavoro!! 🙂
 **Esercizio di stile**
 
 - Creare la index di tutte le offerte speciali. Non ha senso, ma è un esercizio di stile.
+
+---
+
+# EX - Spring La Mia Pizzeria - Many to many
+
+## Consegna
+
+**Repo**: `spring-la-mia-pizzeria-relazioni` Continuiamo l’esercizio precedente. Stessa repo.
+
+Aggiungiamo una nuova fuzionalità per la nostra pizzeria: gli ingredienti!  
+Ogni pizza può avere più ingredienti, e ogni ingrediente può essere collegato a più pizze.
+
+Prevediamo quindi una pagina per mostrare l’elenco di tutti gli ingredienti che utilizziamo nella nostra pizzeria che permetta anche di crearne di nuovi (e di cancellarli).
+
+Nella pagina di creazione (e modifica) della singola pizza dobbiamo dare la possibilità di collegare uno o più ingredienti.
+
+Buon lavoro!! 🙂
