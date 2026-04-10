@@ -1,8 +1,8 @@
 package org.lessons.spring_la_mia_pizzeria_relazioni.repos;
 
-import org.lessons.spring_la_mia_pizzeria_relazioni.models.Ingredients;
+import org.lessons.spring_la_mia_pizzeria_relazioni.models.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IngredientRepo extends JpaRepository<Ingredients, Integer> {
+public interface IngredientRepo extends JpaRepository<Ingredient, Integer> {
 
 }
