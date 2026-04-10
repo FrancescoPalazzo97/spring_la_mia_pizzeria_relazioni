@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/resources :: headTags}"></div>
+    <title>Ingredients</title>
+</head>
+<body>
+    <nav></nav>
+
+    <main>
+        <nav th:replace="~{fragments/nav :: navbar('ingredients')}"></nav>
+
+        <div class="container">
+            <h1>Ingredients</h1>
+            <hr>
+
+            <div class="mb-3 d-flex">
+                <a th:href="@{/ingredients/create}" class="me-auto btn btn-primary btn-sm">Create a new ingredient</a>
+            </div>
+
+            <section class="row">
+                <div class="col-12">
+                    <table class="table" th:if="${ingredients.size() > 0}">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Number of pizzas</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="ingredient : ${ingredients}" th:object="${ingredient}">
+                                <td>[[*{id}]]</td>
+                                <td>[[*{name}]]</td>
+                                <td>[[*{pizzas.size()}]]</td>
+                                <td>
+                                    <a th:href="@{/ingredients/{id}(id=*{id})}" class="btn btn-primary btn-sm">Show</a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/ingredients/edit/{id}(id=*{id})}" class="btn btn-success btn-sm">Edit</a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" th:data-bs-target="'#delete-modal-' + *{id}">Delete</button>
+
+                                    <div class="modal fade" th:id="'delete-modal-'+ *{id}" tabindex="-1" aria-labelledby="delete-modal" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deleting "[[*{name}]]" ingredient</h1>
+                                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete the ingredient <strong>"[[*{name}]]"</strong>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+
+                                                    <form class="d-inline-block" th:action="@{/ingredients/delete/{id}(id=*{id})}" method="post">
+                                                        <button class="btn btn-danger" type="submit">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p th:unless="${ingredients.size() > 0}">No ingredients available at this moment...</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script th:replace="~{fragments/resources :: scripts}"></script>
+</body>
+</html>

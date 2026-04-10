@@ -2,6 +2,7 @@ package org.lessons.spring_la_mia_pizzeria_relazioni.models;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

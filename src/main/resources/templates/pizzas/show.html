@@ -20,6 +20,16 @@
                     
                     <p th:text="*{bio}"></p>
 
+                    <th:block th:if="*{ingredients.size()}">
+                        <h3 class="mb-2">Ingredients</h3>
+                        <ul class="mb-3 ps-4">
+                            <li th:each="ingredient : *{ingredients}">[[${ingredient.name}]]</li>
+                        </ul>
+                    </th:block>
+                    <th:block th:unless="*{ingredients.size()}">
+                        <p class="mb-3 alert alert-info">This pizza has no ingredients for now...</p>
+                    </th:block>
+
                     <img th:src="*{photoUrl}" th:alt="|*{name} photo|" class="img-fluid">
                 </div>
             </section>

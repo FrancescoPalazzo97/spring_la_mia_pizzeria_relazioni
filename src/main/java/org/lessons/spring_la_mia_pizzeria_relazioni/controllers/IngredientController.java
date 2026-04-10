@@ -1,6 +1,7 @@
 package org.lessons.spring_la_mia_pizzeria_relazioni.controllers;
 
 import org.lessons.spring_la_mia_pizzeria_relazioni.models.Ingredient;
+import org.lessons.spring_la_mia_pizzeria_relazioni.models.Pizza;
 import org.lessons.spring_la_mia_pizzeria_relazioni.repos.IngredientRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,6 +57,7 @@ public class IngredientController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("ingredient", ingredientRepo.findById(id).get());
+        model.addAttribute("edit", true);
 
         return new String("ingredients/create-edit");
     }
@@ -74,7 +76,15 @@ public class IngredientController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        ingredientRepo.deleteById(id);
+        Ingredient ingredient = ingredientRepo.findById(id).get();
+
+        for (Pizza pizza : ingredient.getPizzas()) {
+            pizza.getIngredients().remove(ingredient);
+
+        }
+
+        ingredientRepo.delete(ingredient);
+
         return "redirect:/ingredients";
     }
 

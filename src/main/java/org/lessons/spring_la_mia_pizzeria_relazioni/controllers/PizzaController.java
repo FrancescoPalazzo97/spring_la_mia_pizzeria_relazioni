@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lessons.spring_la_mia_pizzeria_relazioni.models.Discount;
 import org.lessons.spring_la_mia_pizzeria_relazioni.models.Pizza;
+import org.lessons.spring_la_mia_pizzeria_relazioni.repos.IngredientRepo;
 import org.lessons.spring_la_mia_pizzeria_relazioni.repos.PizzaRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,15 +25,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PizzaController {
 
     @Autowired
-    private PizzaRepo repo;
+    private PizzaRepo pizzaRepo;
+
+    @Autowired
+    private IngredientRepo ingredientRepo;
 
     @GetMapping
     public String index(@RequestParam(required = false) String search, Model model) {
         List<Pizza> pizzas;
         if (search == null || search.isBlank()) {
-            pizzas = repo.findAll();
+            pizzas = pizzaRepo.findAll();
         } else {
-            pizzas = repo.findByNameContainingIgnoreCaseOrBioContainingIgnoreCase(search, search);
+            pizzas = pizzaRepo.findByNameContainingIgnoreCaseOrBioContainingIgnoreCase(search, search);
         }
         model.addAttribute("pizzas", pizzas);
         model.addAttribute("search", search);
@@ -42,7 +46,7 @@ public class PizzaController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
-        Pizza pizza = repo.findById(id).get();
+        Pizza pizza = pizzaRepo.findById(id).get();
         model.addAttribute("discounts", pizza.getDiscounts());
         model.addAttribute("pizza", pizza);
 
@@ -52,37 +56,42 @@ public class PizzaController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredients", ingredientRepo.findAll());
 
-        return "pizzas/create";
+        return "pizzas/create-edit";
     }
 
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizza newPizza, BindingResult bindingResult) {
+    public String store(@Valid @ModelAttribute("pizza") Pizza newPizza, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "pizzas/create";
+            model.addAttribute("ingredients", ingredientRepo.findAll());
+            return "pizzas/create-edit";
         }
 
-        repo.save(newPizza);
+        pizzaRepo.save(newPizza);
 
         return "redirect:/pizzas";
     }
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("pizza", repo.findById(id).get());
+        model.addAttribute("pizza", pizzaRepo.findById(id).get());
+        model.addAttribute("ingredients", ingredientRepo.findAll());
+        model.addAttribute("edit", true);
 
-        return "pizzas/edit";
+        return "pizzas/create-edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
+    public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "pizzas/create";
+            model.addAttribute("ingredients", ingredientRepo.findAll());
+            return "pizzas/create-edit";
         }
 
-        repo.save(formPizza);
+        pizzaRepo.save(formPizza);
 
         return "redirect:/pizzas";
     }
@@ -90,7 +99,7 @@ public class PizzaController {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
 
-        repo.deleteById(id);
+        pizzaRepo.deleteById(id);
 
         return "redirect:/pizzas";
     }
@@ -98,7 +107,7 @@ public class PizzaController {
     @GetMapping("/{id}/discount")
     public String discocunt(@PathVariable Integer id, Model model) {
         Discount newDiscount = new Discount();
-        newDiscount.setPizza(repo.findById(id).get());
+        newDiscount.setPizza(pizzaRepo.findById(id).get());
         model.addAttribute("discount", newDiscount);
 
         return new String("discounts/create-edit");

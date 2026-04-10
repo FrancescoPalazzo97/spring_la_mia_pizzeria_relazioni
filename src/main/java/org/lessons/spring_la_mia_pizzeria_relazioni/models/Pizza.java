@@ -47,7 +47,7 @@ public class Pizza {
     @OneToMany(mappedBy = "pizza", cascade = { CascadeType.REMOVE })
     private List<Discount> discounts;
 
-    @ManyToMany(cascade = { CascadeType.REMOVE })
+    @ManyToMany
     @JoinTable(name = "ingredient_pizza", joinColumns = @JoinColumn(name = "pizza_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
     private List<Ingredient> ingredients;
 

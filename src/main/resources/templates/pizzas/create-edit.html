@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/resources :: headTags}"></div>
+    <title th:if="${edit}">Edit [[${pizza.name}]] pizza</title>
+    <title th:unless="${edit}">Create a new pizza</title>
+</head>
+<body>
+    <nav th:replace="~{fragments/nav :: navbar('pizzas')}"></nav>
+
+    <main>
+
+        <div class="container" th:object="${pizza}">
+            
+            <section class="row">
+                <div class="col-12">
+
+                    <h1 th:if="${edit}" class="py-4 mb-2 text-center">
+                        Edit [[${pizza.name}]] pizza
+                    </h1>
+                    <h1 th:unless="${edit}" class="py-4 mb-2 text-center">
+                        Creating a new pizza
+                    </h1>
+
+                    <div class="row justify-content-center">
+                        
+                        <form id="pizza-form" th:action="${edit} ? @{/pizzas/edit/{id}(id=*{id})} : @{/pizzas/create}" method="post" th:object="${pizza}">
+
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Name: </label>
+                                <input type="text" id="name" class="form-control" th:field="*{name}" th:errorClass="is-invalid">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('name')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div th:each="ingredient : ${ingredients}" class="single-ingredient formingredients">
+                                    <label th:for="|ingredient${ingredient.id}|" class="form-check-label">[[${ingredient.name}]]</label>
+                                    <input type="checkbox" th:id="|ingredient${ingredient.id}|" th:field="${pizza.ingredients}" th:value="${ingredient.id}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="photoUrl">Photo URL: </label>
+                                <input type="url" id="photoUrl" class="form-control" th:field="*{photoUrl}" th:errorClass="is-invalid">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('photoUrl')}">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('isbn')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="bio">Bio: </label>
+                                <textarea name="bio" id="bio" class="form-control" th:field="*{bio}" th:errorClass="is-invalid"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('bio')}">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('bio')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="price">Price: </label>
+                                <input type="number" id="price" class="form-control" min="0" th:field="*{price}" th:errorClass="is-invalid">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('price')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="reset" class="btn btn-warning">Reset all fields</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </section>
+        
+        </div>
+    </main>
+
+    <script th:replace="~{fragments/resources :: scripts}"></script>
+</body>
+</html>
